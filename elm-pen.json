@@ -1,0 +1,79 @@
+{
+  "generateInto": "elm-pen/generated",
+  "templatesFrom": "elm-pen/templates",
+  "moduleBase": "Gen",
+  "pathToElmFormat": "elm-format",
+  "modules": {
+    "Model": {
+      "Record": {
+        "imports": [
+          "Gen.Enum.Location exposing (Location)",
+          "Gen.Union.Event exposing (Event)",
+          "Gen.Enum.Daytime exposing (Daytime)",
+          "View.Location exposing (LocationInfo)",
+          "Random exposing (Seed)"
+        ],
+        "fields": [
+          { "name": "satiety", "type": "Int" },
+          { "name": "health", "type": "Int" },
+          { "name": "sanity", "type": "Int" },
+          { "name": "location", "type": "Location" },
+          { "name": "locationInfo", "type": "LocationInfo" },
+          { "name": "event", "type": "Maybe Event" },
+          { "name": "daytime", "type": "Daytime" },
+          { "name": "seed", "type": "Seed" }
+        ],
+        "withJsonDecoder": false,
+        "withJsonEncoder": false
+      }
+    },
+    "Location": {
+      "Enum": {
+        "variants": ["Camp", "Woods", "Beach", "Ruin"]
+      }
+    },
+    "Event": {
+      "Union": {
+        "variants": [
+          { "name": "Introduction" },
+          { "name": "Dead", "type": "{satiety:Int, health : Int,sanity:Int}" },
+          { "name": "GoingToBed" }
+        ]
+      }
+    },
+    "Daytime": {
+      "Enum": {
+        "variants": ["Morning", "Midday", "Evening", "Night"]
+      }
+    },
+    "Action": {
+      "Union": {
+        "imports": [
+          "Gen.Union.Event exposing (Event)",
+          "Gen.Enum.Location exposing (Location)"
+        ],
+        "variants": [
+          { "name": "SetEvent", "type": "Maybe Event" },
+          { "name": "MapSatiety", "type": "Int" },
+          { "name": "MapHealth", "type": "Int" },
+          { "name": "MapSanity", "type": "Int" },
+          { "name": "MoveTo", "type": "Location" },
+          { "name": "GenerateLocation" },
+          { "name": "Sleep" }
+        ]
+      }
+    },
+    "Msg": {
+      "Union": {
+        "imports": [
+          "Gen.Union.Action exposing (Action)",
+          "Random exposing (Seed)"
+        ],
+        "variants": [
+          { "name": "ApplyActions", "type": "List Action" },
+          { "name": "GotSeed", "type": "Seed" }
+        ]
+      }
+    }
+  }
+}
